@@ -62,15 +62,15 @@ func t1() {
 	wg.Wait() // - проконтролировали запуск всех горутин
 	i := 0
 	for {
+		if i >= times{
+			close(ch)
+		}
 		select {
 		case s, ok := <-ch:
-			i ++
-			if i == times{
-				close(ch)
-			}
 			if ! ok {  // решение проблемы выхода из цикла
 				return
 			}
+			i ++
 			fmt.Println(s)
 		}
 	}
